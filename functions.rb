@@ -57,8 +57,44 @@ def loop_de_comparacao_dupla_de_dados(dados_principais, dados_comparativos, loop
         end
       end
     end
-    if condicao_atendida == false && loop_de_exclusao == true
+    if condicao_atendida == false && loop_de_exclusao
       dado_formatado << dado_principal
+    end
+  end
+
+  def loop_de_comparacao_tripla_de_dados(dados_principais, dados_secundarios ,dados_terciarios ,loop_de_exclusao_secundario, loop_de_exclusao_terciario)
+    dado_formatado = Array.new
+
+    dados_principais.each do |dado_principal|
+      condicao_secundaria_atendida, condicao_terciaria_atendidada = false
+
+      dado_secundario_formatado,dado_terciario_formatado = nil
+
+      dados_secundarios.each do |dado_secundario|
+        if eh_a_mesma_pessoa?( dado_principal[1], dado_secundario[1], dado_principal[3], dado_secundario[3], dado_principal[2], dado_secundario[2] )
+          if loop_de_exclusao_secundario
+            condicao_secundaria_atendida = true
+            break
+          else
+            dado_secundario_formatado = dado_secundario
+          end
+        end
+      end
+
+      dados_terciarios.each do |dado_terciario|
+        if eh_a_mesma_pessoa?( dado_principal[1], dado_terciario[1], dado_principal[3], dado_terciario[3], dado_principal[2], dado_terciario[2] )
+          if loop_de_exclusao_terciario
+            condicao_secundaria_atendida = true
+            break
+          else
+            dado_terciario_formatado = dado_terciario
+          end
+        end
+      end
+
+      if dado_secundario_formatado != nil && dado_terciario_formatado != nil
+        dado_formatado << dado_principal
+      end
     end
   end
 
